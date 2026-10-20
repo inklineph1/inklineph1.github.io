@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Inkline Print Studio — Your Ideas, Printed.</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com/3.4.17"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<style>
+:root{--blue:#1F5BFF;--ink:#0A0A0B;--paper:#F6F6F3;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+html{scroll-behavior:smooth;scroll-padding-top:calc(72px + env(safe-area-inset-top,0px))}
+body{background:var(--ink);color:#fff;font-family:Inter,system-ui,sans-serif;overflow-x:hidden}
+h1,h2,h3,.d{font-family:'Space Grotesk',Inter,sans-serif;letter-spacing:-.04em}
+.grain::before{content:"";position:absolute;inset:0;pointer-events:none;opacity:.07;background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence baseFrequency='.9' numOctaves='2'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>")}
+.grid-bg{background-image:linear-gradient(rgba(255,255,255,.05) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.05) 1px,transparent 1px);background-size:56px 56px}
+.btn{display:inline-flex;align-items:center;gap:.5rem;padding:.9rem 1.5rem;border-radius:999px;font-weight:600;transition:transform .25s,box-shadow .25s,background .25s}
+.btn:hover{transform:translateY(-2px)}.btn:active{transform:scale(.97)}
+.btn-blue{background:var(--blue);color:#fff;box-shadow:0 10px 40px -10px var(--blue)}
+.btn-line{border:1px solid rgba(255,255,255,.3)}.btn-line:hover{background:#fff;color:#000}
+:focus-visible{outline:3px solid var(--blue);outline-offset:3px}
+.rv{opacity:0;transform:translateY(40px)}
+.sheet{background:#fff;color:#111;border-radius:6px;box-shadow:0 30px 60px -20px rgba(0,0,0,.6)}
+.ln{height:6px;border-radius:3px;background:#d9d9d9;margin:7px 0}
+.shine::after{content:"";position:absolute;inset:0;background:linear-gradient(115deg,transparent 30%,rgba(255,255,255,.55) 45%,transparent 60%);transform:translateX(-100%);transition:transform .9s}
+.shine:hover::after{transform:translateX(100%)}
+details summary{list-style:none;cursor:pointer}details summary::-webkit-details-marker{display:none}
+details[open] .plus{transform:rotate(45deg)}
+.mq{display:flex;gap:3rem;width:max-content;animation:mq 28s linear infinite}
+@keyframes mq{to{transform:translateX(-50%)}}
+@media(prefers-reduced-motion:reduce){.mq{animation:none}html{scroll-behavior:auto}}
+input,select,textarea{background:#141416;border:1px solid #2a2a2e;border-radius:12px;padding:.8rem 1rem;width:100%;color:#fff;transition:border .2s}
+input:focus,select:focus,textarea:focus{border-color:var(--blue);outline:none}
+label{font-size:.8rem;color:#9a9aa3;display:block;margin-bottom:.35rem}
+</style>
+</head>
+<body>
+
+<a href="#main" class="sr-only focus:not-sr-only fixed z-[100] top-2 left-2 bg-white text-black px-4 py-2 rounded">Skip to content</a>
+
+<header class="fixed top-0 inset-x-0 z-50 backdrop-blur-md bg-black/60 border-b border-white/10" style="padding-top:env(safe-area-inset-top,0px)">
+  <nav class="max-w-7xl mx-auto h-[72px] px-5 flex items-center justify-between" aria-label="Main">
+    <a href="#top" class="flex items-center gap-2 d font-bold text-xl" aria-label="Inkline home">
+      <svg width="34" height="34" viewBox="0 0 40 40" aria-hidden="true"><rect width="40" height="40" rx="10" fill="#1F5BFF"/><path d="M12 8h16v10H12z" fill="#fff"/><path d="M8 18h24v12H8z" fill="#0A0A0B"/><rect x="13" y="25" width="14" height="9" fill="#fff"/><circle cx="29" cy="22" r="1.5" fill="#1F5BFF"/></svg>
+      <span data-c="name"></span>
+    </a>
+    <ul class="hidden md:flex gap-8 text-sm text-white/80" id="links"></ul>
+    <div class="flex items-center gap-3">
+      <a href="#order" class="btn btn-blue !py-2 !px-4 text-sm hidden sm:inline-flex">Get a Quote</a>
+      <button id="burger" class="md:hidden w-11 h-11 grid place-items-center rounded-full border border-white/20" aria-label="Open menu" aria-expanded="false" aria-controls="mnav">
+        <svg width="20" height="20" viewBox="0 0 20 20" stroke="#fff" stroke-width="2"><path d="M3 6h14M3 14h14"/></svg>
+      </button>
+    </div>
+  </nav>
+  <ul id="mnav" class="hidden md:hidden flex-col px-5 pb-5 gap-1 text-lg bg-black/95"></ul>
+</header>
+
+<main id="main">
+<!-- HERO -->
+<section id="top" class="relative min-h-screen pt-28 pb-16 overflow-hidden grain grid-bg">
+  <div class="absolute -top-40 right-[-10%] w-[600px] h-[600px] rounded-full blur-[140px] opacity-40" style="background:var(--blue)"></div>
+  <div class="relative max-w-7xl mx-auto px-5 grid lg:grid-cols-2 gap-10 items-center">
+    <div>
+      <p class="text-sm tracking-[.25em] uppercase text-[#6f95ff] mb-5" data-c="tagline"></p>
+      <h1 class="text-[clamp(3rem,9vw,7.5rem)] leading-[.88] font-bold uppercase" id="h1">
+        <span class="block overflow-hidden"><span class="hl block">Bring your</span></span>
+        <span class="block overflow-hidden"><span class="hl block text-[#1F5BFF]">ideas</span></span>
+        <span class="block overflow-hidden"><span class="hl block">to print</span></span>
+      </h1>
+      <p class="mt-7 max-w-md text-white/70 text-lg rv">Sharp documents, vivid photos, tough lamination and tidy binding — fast, affordable and done right for students, teachers, offices and neighbors.</p>
+      <div class="mt-8 flex flex-wrap gap-3 rv">
+        <a href="#services" class="btn btn-blue">Explore Services <span aria-hidden="true">→</span></a>
+        <a href="#order" class="btn btn-line">Get a Quote</a>
+      </div>
+    </div>
+    <!-- 3D printer -->
+    <div id="stage" class="relative h-[480px] sm:h-[560px]" style="perspective:1200px">
+      <div id="rig" class="absolute inset-0 grid place-items-start justify-center" style="transform-style:preserve-3d">
+        <div class="absolute w-[280px] sm:w-[340px] top-[190px] sm:top-[220px] left-1/2 -ml-[140px] sm:-ml-[170px] overflow-hidden" style="height:330px;z-index:1;clip-path:inset(0 -20px -20px -20px)">
+          <div id="paper" class="sheet p-5 sm:p-6 mx-auto w-[88%] absolute left-[6%] top-0" style="height:300px;transform:translateY(-300px)">
+            <div class="flex items-center justify-between mb-4"><b class="d text-lg">Annual Report</b><span class="w-5 h-5 rounded-full bg-[#1F5BFF]"></span></div>
+            <div class="inkl ln" style="background:#111;height:9px;width:70%"></div>
+            <div class="inkl ln"></div><div class="inkl ln" style="width:90%"></div><div class="inkl ln" style="width:75%"></div>
+            <div class="flex gap-2 mt-4"><div class="inkl h-16 flex-1 rounded" style="background:linear-gradient(135deg,#1F5BFF,#7aa2ff)"></div><div class="inkl h-16 flex-1 rounded bg-black"></div></div>
+            <div class="inkl ln mt-4"></div><div class="inkl ln" style="width:60%"></div>
+          </div>
+        </div>
+        <svg viewBox="0 0 420 300" class="relative w-[320px] sm:w-[420px] mt-16 drop-shadow-[0_40px_60px_rgba(31,91,255,.35)]" style="z-index:2" role="img" aria-label="3D printer printing a document">
+          <defs>
+            <linearGradient id="g1" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#2b2b30"/><stop offset="1" stop-color="#0c0c0e"/></linearGradient>
+            <linearGradient id="g2" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#111"/><stop offset=".5" stop-color="#26262b"/><stop offset="1" stop-color="#111"/></linearGradient>
+            <linearGradient id="gl" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#fff" stop-opacity=".35"/><stop offset=".4" stop-color="#fff" stop-opacity="0"/></linearGradient>
+          </defs>
+          <path d="M60 70 L360 70 L395 110 L25 110Z" fill="#3a3a42"/>
+          <rect x="25" y="110" width="370" height="150" rx="22" fill="url(#g1)"/>
+          <path d="M25 110h370v40H25z" fill="url(#gl)"/>
+          <rect x="70" y="40" width="280" height="40" rx="12" fill="url(#g2)" stroke="#333"/>
+          <rect x="55" y="205" width="310" height="14" rx="7" fill="#000"/>
+          <rect x="55" y="205" width="310" height="3" fill="#1F5BFF" opacity=".9"><animate attributeName="opacity" values=".4;1;.4" dur="2s" repeatCount="indefinite"/></rect>
+          <circle cx="352" cy="140" r="5" fill="#1F5BFF"><animate attributeName="opacity" values="1;.3;1" dur="1.2s" repeatCount="indefinite"/></circle>
+          <rect x="46" y="132" width="70" height="8" rx="4" fill="#333"/>
+          <g fill="#1F5BFF"><rect x="300" y="132" width="30" height="8" rx="4"/></g>
+          <rect x="25" y="260" width="370" height="10" rx="5" fill="#000" opacity=".5"/>
+        </svg>
+      </div>
+      <div class="absolute bottom-2 left-0 flex gap-2 text-xs text-white/60"><span class="px-3 py-1 rounded-full border border-white/15">CMYK ink</span><span class="px-3 py-1 rounded-full border border-white/15">1200 dpi</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- MARQUEE -->
+<div class="bg-[#1F5BFF] py-4 overflow-hidden" aria-hidden="true"><div class="mq d text-2xl font-bold uppercase whitespace-nowrap" id="mq"></div></div>
+
+<!-- SERVICES -->
+<section id="services" class="py-24 px-5">
+  <div class="max-w-7xl mx-auto">
+    <h2 class="text-[clamp(2.5rem,7vw,5.5rem)] font-bold uppercase leading-[.9] rv">What we <span class="text-[#1F5BFF]">print</span></h2>
+    <div class="mt-12 grid lg:grid-cols-[320px_1fr] gap-8">
+      <div id="svcList" role="tablist" aria-label="Services" class="flex lg:flex-col gap-2 overflow-x-auto lg:overflow-visible pb-2"></div>
+      <div class="relative min-h-[420px] rounded-3xl border border-white/10 bg-[#101012] overflow-hidden grid md:grid-cols-2 items-center" id="svcStage" aria-live="polite">
+        <div class="p-8 md:p-10 order-2 md:order-1">
+          <p class="text-[#6f95ff] text-sm uppercase tracking-widest" id="sNo"></p>
+          <h3 class="text-4xl md:text-5xl font-bold mt-2" id="sTitle"></h3>
+          <p class="text-white/65 mt-4" id="sDesc"></p>
+          <p class="mt-6 d text-2xl">from <b id="sPrice" class="text-[#6f95ff]"></b></p>
+          <a href="#order" id="sCta" class="btn btn-blue mt-6">Order this</a>
+        </div>
+        <div class="p-8 grid place-items-center order-1 md:order-2 min-h-[300px]" style="perspective:900px"><div id="mock" class="transition-transform duration-300"></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- STATS -->
+<section class="px-5 pb-24"><div class="max-w-7xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-4" id="stats"></div></section>
+
+<!-- PRICING -->
+<section id="pricing" class="py-24 px-5 bg-[#F6F6F3] text-black">
+  <div class="max-w-7xl mx-auto">
+    <h2 class="text-[clamp(2.5rem,7vw,5.5rem)] font-bold uppercase leading-[.9] rv">Honest <span class="text-[#1F5BFF]">pricing</span></h2>
+    <p class="mt-4 text-black/60 max-w-lg rv">Prices in Philippine pesos. Bulk and school-order discounts available — ask for a quote.</p>
+    <div class="mt-12 grid md:grid-cols-3 gap-5" id="plans"></div>
+  </div>
+</section>
+
+<!-- PORTFOLIO -->
+<section id="work" class="py-24 px-5">
+  <div class="max-w-7xl mx-auto">
+    <h2 class="text-[clamp(2.5rem,7vw,5.5rem)] font-bold uppercase leading-[.9] rv">Recent <span class="text-[#1F5BFF]">work</span></h2>
+    <div class="mt-6 flex gap-2 flex-wrap" id="filters"></div>
+    <div class="mt-8 grid grid-cols-2 md:grid-cols-4 gap-4" id="gallery"></div>
+  </div>
+</section>
+
+<!-- PROCESS -->
+<section id="process" class="py-24 px-5 border-y border-white/10 grid-bg">
+  <div class="max-w-7xl mx-auto">
+    <h2 class="text-[clamp(2.5rem,7vw,5.5rem)] font-bold uppercase leading-[.9] rv">4 steps. <span class="text-[#1F5BFF]">Done.</span></h2>
+    <ol class="mt-12 grid md:grid-cols-4 gap-5" id="steps"></ol>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section class="py-24 px-5">
+  <div class="max-w-7xl mx-auto">
+    <h2 class="text-[clamp(2.5rem,7vw,5.5rem)] font-bold uppercase leading-[.9] rv">Kind <span class="text-[#1F5BFF]">words</span></h2>
+    <div class="mt-12 grid md:grid-cols-3 gap-5" id="quotes"></div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section id="faq" class="py-24 px-5 bg-[#F6F6F3] text-black">
+  <div class="max-w-3xl mx-auto">
+    <h2 class="text-[clamp(2.5rem,7vw,5rem)] font-bold uppercase leading-[.9] rv">Questions?</h2>
+    <div class="mt-10 divide-y divide-black/15 border-y border-black/15" id="faqs"></div>
+  </div>
+</section>
+
+<!-- ORDER -->
+<section id="order" class="py-24 px-5 relative overflow-hidden">
+  <div class="absolute bottom-[-200px] left-[-100px] w-[500px] h-[500px] rounded-full blur-[130px] opacity-30" style="background:var(--blue)"></div>
+  <div class="relative max-w-6xl mx-auto grid lg:grid-cols-[1fr_1.2fr] gap-12">
+    <div>
+      <h2 class="text-[clamp(2.5rem,7vw,5.5rem)] font-bold uppercase leading-[.9]">Get a <span class="text-[#1F5BFF]">quote</span></h2>
+      <p class="mt-5 text-white/65 max-w-sm">Tell us what you need. We’ll reply with a price and pickup time, usually within the hour during business hours.</p>
+      <dl class="mt-10 space-y-5 text-sm" id="contact"></dl>
+      <div class="mt-8 flex gap-3" id="socials"></div>
+    </div>
+    <div>
+      <form id="form" class="grid sm:grid-cols-2 gap-4 p-6 md:p-8 rounded-3xl border border-white/10 bg-[#0e0e10]" novalidate>
+        <div><label for="fn">Full name *</label><input id="fn" required autocomplete="name"></div>
+        <div><label for="fc">Mobile or email *</label><input id="fc" required autocomplete="tel"></div>
+        <div><label for="fs">Service *</label><select id="fs" required></select></div>
+        <div><label for="fz">Paper size</label><select id="fz"><option>A4 (8.27×11.69)</option><option>Short (8.5×11)</option><option>Long (8.5×13)</option><option>A3</option><option>4R photo</option><option>Other</option></select></div>
+        <div><label for="fq">Quantity (pcs / pages) *</label><input id="fq" type="number" min="1" value="1" required></div>
+        <div><label for="fm">Color mode</label><select id="fm"><option>Black &amp; white</option><option>Full color</option></select></div>
+        <fieldset class="sm:col-span-2"><legend class="text-xs text-[#9a9aa3] mb-2">Finishing</legend>
+          <div class="flex flex-wrap gap-2" id="fin"></div></fieldset>
+        <div><label for="fd">Needed by</label><input id="fd" type="date"></div>
+        <div><label for="fp">Pickup or delivery</label><select id="fp"><option>Pickup</option><option>Delivery</option></select></div>
+        <div class="sm:col-span-2"><label for="ff">File link (Drive, Dropbox…)</label><input id="ff" placeholder="https://"></div>
+        <div class="sm:col-span-2"><label for="fx">Notes</label><textarea id="fx" rows="3" placeholder="Paper type, layout, special instructions…"></textarea></div>
+        <p id="err" class="sm:col-span-2 text-red-400 text-sm min-h-[1.2em]" role="alert"></p>
+        <button class="btn btn-blue sm:col-span-2 justify-center" type="submit">Send inquiry</button>
+      </form>
+      <div id="done" class="hidden p-8 rounded-3xl border border-[#1F5BFF]/50 bg-[#0e0e10]" tabindex="-1">
+        <p class="text-[#6f95ff] text-sm uppercase tracking-widest">Inquiry ready</p>
+        <h3 class="text-3xl font-bold mt-2">Ref <span id="ref"></span></h3>
+        <pre id="sum" class="mt-5 text-sm text-white/75 whitespace-pre-wrap bg-black/40 rounded-xl p-4"></pre>
+        <div class="mt-5 flex flex-wrap gap-3"><a id="mail" class="btn btn-blue" href="#">Send via email</a><button id="copy" class="btn btn-line">Copy details</button><button id="again" class="btn btn-line">New inquiry</button></div>
+      </div>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer class="border-t border-white/10 py-10 px-5 text-sm text-white/50">
+  <div class="max-w-7xl mx-auto flex flex-wrap justify-between gap-4"><span>© <span id="yr"></span> <span data-c="name"></span>. All rights reserved.</span><a href="#top" class="hover:text-white">Back to top ↑</a></div>
+</footer>
+
+<script>
+/* ========= EDIT YOUR BUSINESS DETAILS HERE ========= */
+const CONFIG={
+  name:"Inkline", tagline:"Your Ideas, Printed.",
+  phone:"+63 917 000 0000", email:"hello@inkline.example",
+  address:"123 Rizal Avenue, Barangay Poblacion, Your City, Philippines",
+  hours:[["Mon – Fri","8:00 AM – 7:00 PM"],["Saturday","9:00 AM – 6:00 PM"],["Sunday","Closed"]],
+  socials:[["Facebook","https://facebook.com/"],["Instagram","https://instagram.com/"],["TikTok","https://tiktok.com/"]]
+};
+const SERVICES=[
+ {t:"Document Printing",m:"doc",p:"₱3/page",d:"Reports, resumes, contracts and forms on crisp 80gsm bond paper."},
+ {t:"Black & White",m:"bw",p:"₱2/page",d:"Fast, sharp, budget-friendly mono printing in bulk or single sheets."},
+ {t:"Colored Printing",m:"color",p:"₱10/page",d:"Rich, saturated color for presentations, charts and handouts."},
+ {t:"Photocopying",m:"copy",p:"₱2/page",d:"Clean copies of IDs, certificates and books, enlarged or reduced."},
+ {t:"Photo Printing",m:"photo",p:"₱15/4R",d:"Glossy or matte photo paper with true-to-life color."},
+ {t:"Lamination",m:"lam",p:"₱20/ID",d:"Durable gloss lamination for IDs, certificates and menus."},
+ {t:"Binding",m:"bind",p:"₱60/book",d:"Spiral, tape and hardbound finishes for thesis and research papers."},
+ {t:"Flyers",m:"flyer",p:"₱8/pc",d:"Full-color A5 and A4 flyers for promos, events and campaigns."},
+ {t:"Posters",m:"poster",p:"₱80/A3",d:"Eye-catching A3 to A1 posters with vibrant, fade-resistant ink."},
+ {t:"School Projects",m:"school",p:"₱5/page",d:"Reports, certificates, covers and visual aids — ready before the bell."}
+];
+const MOCK={
+ doc:`<div class="sheet w-52 p-5" style="transform:rotate(-4deg)"><b class="d">REPORT</b><div class="ln" style="background:#111;height:8px;width:60%"></div><div class="ln"></div><div class="ln w-4/5"></div><div class="ln"></div><div class="ln w-2/3"></div><div class="ln"></div><div class="ln w-3/4"></div></div>`,
+ bw:`<div class="sheet w-52 p-5" style="filter:grayscale(1);transform:rotate(3deg)"><div class="h-20 rounded bg-[linear-gradient(135deg,#111,#888)]"></div><div class="ln mt-4"></div><div class="ln w-4/5"></div><div class="ln w-2/3"></div></div>`,
+ color:`<div class="sheet w-52 p-5" style="transform:rotate(-3deg)"><div class="h-20 rounded bg-[linear-gradient(135deg,#1F5BFF,#ff3d81,#ffcb3d)]"></div><div class="flex gap-1 mt-3 items-end h-14"><i class="flex-1 bg-[#1F5BFF] h-1/2"></i><i class="flex-1 bg-[#ff3d81] h-full"></i><i class="flex-1 bg-[#ffcb3d] h-2/3"></i></div></div>`,
+ copy:`<div class="relative w-52 h-64"><div class="sheet absolute inset-0 p-5 translate-x-5 translate-y-5 opacity-60"><div class="ln"></div></div><div class="sheet absolute inset-0 p-5"><b class="d">COPY</b><div class="ln mt-2"></div><div class="ln w-4/5"></div><div class="ln"></div></div></div>`,
+ photo:`<div class="relative shine w-56 h-44 bg-white p-2 pb-8 overflow-hidden rounded-sm shadow-2xl" style="transform:rotate(4deg)"><div class="w-full h-full" style="background:linear-gradient(160deg,#ffb347,#ff5e62 45%,#1F5BFF)"></div></div>`,
+ lam:`<div class="relative shine w-64 h-40 rounded-2xl p-3 overflow-hidden" style="background:rgba(255,255,255,.9);box-shadow:0 0 0 6px rgba(200,225,255,.6),0 30px 50px -15px #000;color:#111"><div class="flex gap-3"><div class="w-16 h-20 rounded bg-[#1F5BFF]"></div><div class="flex-1"><b class="d text-sm">STUDENT ID</b><div class="ln"></div><div class="ln w-2/3"></div></div></div></div>`,
+ bind:`<div class="relative w-48 h-60 rounded-r-xl bg-[#1F5BFF] p-5 pl-9 shadow-2xl" style="transform:rotateY(-18deg)"><div class="absolute left-2 inset-y-3 flex flex-col justify-between">${"<i class='w-4 h-2 rounded bg-white/90 block'></i>".repeat(10)}</div><b class="d text-xl">RESEARCH PAPER</b><div class="mt-3 h-1 w-10 bg-white"></div></div>`,
+ flyer:`<div class="w-48 h-64 p-4 flex flex-col justify-between shadow-2xl" style="background:linear-gradient(160deg,#1F5BFF,#0a1f66);transform:rotate(-5deg)"><b class="d text-3xl leading-none">GRAND SALE</b><div class="w-16 h-16 rounded-full bg-[#ffcb3d] text-black grid place-items-center d font-bold">50%</div><span class="text-xs">Visit us this weekend</span></div>`,
+ poster:`<div class="w-44 h-64 bg-white text-black p-4 flex flex-col justify-end shadow-2xl" style="background-image:radial-gradient(circle at 70% 25%,#1F5BFF 0 55px,transparent 56px)"><b class="d text-3xl leading-none">SCIENCE FAIR</b><span class="text-xs mt-1">Oct 30 · Gym</span></div>`,
+ school:`<div class="sheet w-56 p-5 border-4 border-[#1F5BFF]" style="transform:rotate(2deg)"><p class="text-center text-xs tracking-widest">CERTIFICATE</p><p class="text-center d text-lg font-bold mt-2">Achievement</p><div class="ln w-2/3 mx-auto mt-3"></div><div class="ln w-1/2 mx-auto"></div><div class="w-8 h-8 rounded-full bg-[#ffcb3d] mx-auto mt-3"></div></div>`
+};
+const PLANS=[
+ {n:"Everyday Printing",rows:[["B&W text, A4/Short","₱2–3"],["Colored text/chart","₱10"],["Full-color image page","₱15"],["Photocopy","₱2"]]},
+ {n:"Photo & Laminate",rows:[["Photo 4R glossy","₱15"],["Photo A4","₱35"],["ID lamination","₱20"],["A4 lamination","₱35"]],hot:1},
+ {n:"Binding & Large",rows:[["Spiral binding","₱60–120"],["Hardbound thesis","₱450"],["Flyer A5 (full color)","₱8"],["Poster A3 / A2","₱80 / ₱250"]]}
+];
+const WORK=[["Flyers","flyer"],["Posters","poster"],["Binding","bind"],["Photos","photo"],["Flyers","flyer"],["School","school"],["Laminated","lam"],["Posters","poster"]];
+const STEPS=[["Send your file","Share a link or bring a flash drive."],["Get a quote","We confirm price and pickup time."],["We print","Checked page by page on quality paper."],["Pick up or deliver","Pay on pickup or via GCash."]];
+const QUOTES=[["Our thesis was bound overnight and looked amazing.","Maria S.","Graduating student"],["Posters for our school fair came out vivid and on time.","Mr. Reyes","Teacher"],["Reliable for monthly office forms. Never missed a deadline.","Ana L.","Office admin"]];
+const FAQS=[["What file formats do you accept?","PDF is best. We also accept DOCX, PPTX, JPG and PNG."],["Do you offer bulk or school discounts?","Yes. Orders over 100 pages or class orders get special rates — send an inquiry."],["How fast can I get my prints?","Most small jobs are ready in 15–30 minutes. Binding and posters usually take 1 day."],["Do you deliver?","Yes, within nearby areas for a small fee. Choose Delivery in the form."],["How can I pay?","Cash, GCash or bank transfer."]];
+const FIN=["Lamination","Spiral binding","Hardbound","Cut to size","Stapled"];
+const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
+const NAV=[["Services","#services"],["Pricing","#pricing"],["Work","#work"],["Process","#process"],["FAQ","#faq"],["Contact","#order"]];
+
+$$("[data-c]").forEach(e=>e.textContent=CONFIG[e.dataset.c]);$("#yr").textContent=new Date().getFullYear();
+$("#links").innerHTML=NAV.map(([a,h])=>`<li><a class="hover:text-white relative after:absolute after:left-0 after:-bottom-1 after:h-px after:w-0 after:bg-[#1F5BFF] hover:after:w-full after:transition-all" href="${h}">${a}</a></li>`).join("");
+$("#mnav").innerHTML=NAV.map(([a,h])=>`<li><a class="block py-3 border-b border-white/10" href="${h}">${a}</a></li>`).join("");
+const bg=$("#burger"),mn=$("#mnav");
+bg.onclick=()=>{const o=mn.classList.toggle("hidden");mn.classList.toggle("flex",!o);bg.setAttribute("aria-expanded",String(!o))};
+mn.onclick=e=>{if(e.target.tagName==="A"){mn.classList.add("hidden");mn.classList.remove("flex");bg.setAttribute("aria-expanded","false")}};
+$("#mq").innerHTML=[...Array(2)].map(()=>SERVICES.map(s=>`<span>${s.t} ✦</span>`).join("")).join("");
+
+/* Services showcase */
+function show(i){
+  const s=SERVICES[i];
+  $$("#svcList button").forEach((b,j)=>{b.setAttribute("aria-selected",j===i);b.className=`shrink-0 text-left px-5 py-3 rounded-full lg:rounded-2xl border transition ${j===i?"bg-[#1F5BFF] border-[#1F5BFF]":"border-white/15 text-white/70 hover:border-white/50"}`});
+  $("#sNo").textContent=String(i+1).padStart(2,"0")+" / "+SERVICES.length;
+  $("#sTitle").textContent=s.t;$("#sDesc").textContent=s.d;$("#sPrice").textContent=s.p;
+  $("#sCta").onclick=()=>{[...$("#fs").options].forEach(o=>o.selected=o.value===s.t)};
+  const m=$("#mock");m.innerHTML=MOCK[s.m];
+  gsap.fromTo(m,{y:30,opacity:0,rotateY:-25},{y:0,opacity:1,rotateY:0,duration:.6,ease:"power3.out"});
+  gsap.fromTo("#svcStage .p-8:first-child > *, #svcStage .md\\:p-10 > *",{y:16,opacity:0},{y:0,opacity:1,stagger:.06,duration:.5});
+}
+$("#svcList").innerHTML=SERVICES.map((s,i)=>`<button role="tab" data-i="${i}" class="d text-lg">${s.t}</button>`).join("");
+$("#svcList").onclick=e=>{const b=e.target.closest("button");if(b)show(+b.dataset.i)};
+$("#svcStage").addEventListener("mousemove",e=>{const r=e.currentTarget.getBoundingClientRect(),x=(e.clientX-r.left)/r.width-.5,y=(e.clientY-r.top)/r.height-.5;gsap.to("#mock",{rotateY:x*18,rotateX:-y*14,duration:.4})});
+$("#svcStage").addEventListener("mouseleave",()=>gsap.to("#mock",{rotateY:0,rotateX:0}));
+
+$("#stats").innerHTML=[["10","Services",""],["5000","Pages / week","+"],["30","Min rush jobs","'"],["4.9","Customer rating","★"]].map(([n,l,x])=>`<div class="rv p-6 rounded-2xl border border-white/10"><div class="d text-5xl font-bold"><span class="num" data-n="${n}">0</span>${x==="'"?"":x}</div><p class="text-white/55 mt-1">${l}</p></div>`).join("");
+$("#plans").innerHTML=PLANS.map(p=>`<article class="rv rounded-3xl p-7 transition hover:-translate-y-2 ${p.hot?"bg-black text-white":"bg-white border border-black/10"}"><h3 class="text-2xl font-bold">${p.n}</h3><ul class="mt-6 space-y-3">${p.rows.map(r=>`<li class="flex justify-between gap-4 border-b ${p.hot?"border-white/15":"border-black/10"} pb-3"><span>${r[0]}</span><b class="d ${p.hot?"text-[#6f95ff]":"text-[#1F5BFF]"}">${r[1]}</b></li>`).join("")}</ul><a href="#order" class="btn ${p.hot?"btn-blue":"btn-line !border-black/30 hover:!bg-black hover:!text-white"} mt-7">Request quote</a></article>`).join("");
+
+/* Gallery */
+const cats=["All",...new Set(WORK.map(w=>w[0]))];
+$("#filters").innerHTML=cats.map((c,i)=>`<button data-f="${c}" class="px-4 py-2 rounded-full border text-sm ${i?"border-white/20":"bg-white text-black"}">${c}</button>`).join("");
+function gal(f){$("#gallery").innerHTML=WORK.filter(w=>f==="All"||w[0]===f).map(w=>`<figure class="group relative aspect-[3/4] rounded-2xl bg-[#141416] border border-white/10 grid place-items-center overflow-hidden"><div class="scale-[.7] transition-transform duration-500 group-hover:scale-[.8] group-hover:-rotate-2">${MOCK[w[1]]}</div><figcaption class="absolute bottom-3 left-3 text-xs px-3 py-1 rounded-full bg-black/70">${w[0]}</figcaption></figure>`).join("");
+ gsap.from("#gallery figure",{opacity:0,y:30,stagger:.06,duration:.5})}
+$("#filters").onclick=e=>{const b=e.target.closest("button");if(!b)return;$$("#filters button").forEach(x=>x.className="px-4 py-2 rounded-full border text-sm border-white/20");b.className="px-4 py-2 rounded-full border text-sm bg-white text-black";gal(b.dataset.f)};gal("All");
+
+$("#steps").innerHTML=STEPS.map((s,i)=>`<li class="rv p-6 rounded-2xl bg-black/60 border border-white/10 hover:border-[#1F5BFF] transition"><span class="d text-6xl text-[#1F5BFF] font-bold">${i+1}</span><h3 class="text-xl font-semibold mt-3">${s[0]}</h3><p class="text-white/60 mt-1">${s[1]}</p></li>`).join("");
+$("#quotes").innerHTML=QUOTES.map(q=>`<figure class="rv p-7 rounded-3xl border border-white/10 bg-[#101012]"><div class="text-[#1F5BFF] text-2xl" aria-label="5 stars">★★★★★</div><blockquote class="mt-4 text-lg">“${q[0]}”</blockquote><figcaption class="mt-5 text-sm text-white/55"><b class="text-white">${q[1]}</b> · ${q[2]}</figcaption></figure>`).join("");
+$("#faqs").innerHTML=FAQS.map(f=>`<details class="py-5"><summary class="flex justify-between items-center gap-4 text-lg font-semibold">${f[0]}<span class="plus text-2xl text-[#1F5BFF] transition-transform">+</span></summary><p class="mt-3 text-black/65">${f[1]}</p></details>`).join("");
+$("#contact").innerHTML=`<div><dt class="text-white/45">Location</dt><dd class="text-lg">${CONFIG.address}</dd></div><div><dt class="text-white/45">Call or text</dt><dd class="text-lg"><a href="tel:${CONFIG.phone.replace(/\s/g,"")}" class="hover:text-[#6f95ff]">${CONFIG.phone}</a></dd></div><div><dt class="text-white/45">Email</dt><dd class="text-lg"><a href="mailto:${CONFIG.email}" class="hover:text-[#6f95ff]">${CONFIG.email}</a></dd></div><div><dt class="text-white/45">Business hours</dt>${CONFIG.hours.map(h=>`<dd class="flex justify-between max-w-xs"><span>${h[0]}</span><span class="text-white/70">${h[1]}</span></dd>`).join("")}</div>`;
+$("#socials").innerHTML=CONFIG.socials.map(s=>`<a class="btn btn-line !py-2 !px-4 text-sm" href="${s[1]}" target="_blank" rel="noopener">${s[0]}</a>`).join("");
+$("#fs").innerHTML=SERVICES.map(s=>`<option>${s.t}</option>`).join("");
+$("#fin").innerHTML=FIN.map(f=>`<label class="!mb-0 cursor-pointer"><input type="checkbox" value="${f}" class="peer sr-only"><span class="inline-block px-4 py-2 rounded-full border border-white/20 text-sm text-white/70 peer-checked:bg-[#1F5BFF] peer-checked:border-[#1F5BFF] peer-checked:text-white peer-focus-visible:outline peer-focus-visible:outline-2">${f}</span></label>`).join("");
+
+/* Order form */
+$("#form").onsubmit=e=>{
+  e.preventDefault();
+  const v=id=>$("#"+id).value.trim();
+  if(!v("fn")||!v("fc")||!(+v("fq")>0)){$("#err").textContent="Please add your name, contact and a valid quantity.";return}
+  if(v("ff")&&!/^https?:\/\//i.test(v("ff"))){$("#err").textContent="File link should start with http:// or https://";return}
+  $("#err").textContent="";
+  const ref="INK-"+Date.now().toString(36).toUpperCase().slice(-6),fin=$$("#fin input:checked").map(x=>x.value).join(", ")||"None";
+  const txt=`Ref: ${ref}\nName: ${v("fn")}\nContact: ${v("fc")}\nService: ${v("fs")}\nSize: ${v("fz")}\nQuantity: ${v("fq")}\nColor: ${v("fm")}\nFinishing: ${fin}\nNeeded by: ${v("fd")||"Flexible"}\nMode: ${v("fp")}\nFile: ${v("ff")||"Will send later"}\nNotes: ${v("fx")||"—"}`;
+  $("#ref").textContent=ref;$("#sum").textContent=txt;
+  $("#mail").href=`mailto:${CONFIG.email}?subject=${encodeURIComponent("Print inquiry "+ref)}&body=${encodeURIComponent(txt)}`;
+  $("#form").classList.add("hidden");const d=$("#done");d.classList.remove("hidden");d.focus();
+  gsap.from(d,{y:30,opacity:0,duration:.6});
+};
+$("#copy").onclick=async e=>{try{await navigator.clipboard.writeText($("#sum").textContent);e.target.textContent="Copied ✓"}catch(_){e.target.textContent="Select & copy manually"}};
+$("#again").onclick=()=>{$("#done").classList.add("hidden");$("#form").classList.remove("hidden");$("#form").reset()};
+
+/* Animation */
+gsap.registerPlugin(ScrollTrigger);
+show(0);
+const reduce=matchMedia("(prefers-reduced-motion:reduce)").matches;
+if(reduce){gsap.set(".rv,.hl",{opacity:1,y:0});gsap.set("#paper",{y:0})}
+else{
+  gsap.from(".hl",{yPercent:110,duration:1,ease:"power4.out",stagger:.12,delay:.1});
+  gsap.to("#h1 ~ .rv, .rv",{opacity:1,y:0,duration:.8,ease:"power3.out",stagger:.1,delay:.5,scrollTrigger:undefined,paused:false,overwrite:false,onStart:()=>{}});
+  gsap.set(".rv",{opacity:0,y:40});
+  ScrollTrigger.batch(".rv",{start:"top 88%",once:true,onEnter:b=>gsap.to(b,{opacity:1,y:0,duration:.8,stagger:.1,ease:"power3.out"})});
+  // printer: paper feeds out, ink lines draw in
+  const tl=gsap.timeline({delay:.5});
+  tl.to("#paper",{y:0,duration:3.2,ease:"power1.inOut"})
+    .from(".inkl",{scaleX:0,transformOrigin:"left",stagger:.12,duration:.5,ease:"power2.out"},0.4);
+  gsap.to("#paper",{rotation:.6,yoyo:true,repeat:-1,duration:2.4,ease:"sine.inOut"});
+  // scroll-driven "camera"
+  gsap.timeline({scrollTrigger:{trigger:"#top",start:"top top",end:"bottom top",scrub:.8}})
+    .to("#rig",{rotateY:-28,rotateX:12,scale:1.15,y:-40,ease:"none"},0)
+    .to("#paper",{y:60,ease:"none"},0);
+  $("#stage").addEventListener("mousemove",e=>{const r=e.currentTarget.getBoundingClientRect();gsap.to("#stage",{rotateY:((e.clientX-r.left)/r.width-.5)*10,rotateX:-((e.clientY-r.top)/r.height-.5)*8,duration:.6})});
+  $$(".num").forEach(el=>{const n=+el.dataset.n,o={v:0},dec=n%1||String(n).includes(".")?1:0;ScrollTrigger.create({trigger:el,start:"top 90%",once:true,onEnter:()=>gsap.to(o,{v:n,duration:1.6,ease:"power2.out",onUpdate:()=>el.textContent=dec?o.v.toFixed(1):Math.round(o.v).toLocaleString()})})});
+}
+if(reduce)$$(".num").forEach(el=>el.textContent=Number(el.dataset.n).toLocaleString());
+</script>
+</body>
+</html>
